@@ -1,48 +1,42 @@
 plugins {
-    `java-gradle-plugin`
-    `maven-publish`
     kotlin("jvm") version "2.1.20"
+    `maven-publish`
 }
 
-group = "re.alwyn974.groupez"
-// x-release-please-start-version
-version = "1.0.0-SNAPSHOT"
-// x-release-please-end
+allprojects {
+    group = "re.alwyn974.groupez"
+    // x-release-please-start-version
+    version = "1.0.0"
+    // x-release-please-end
 
-gradlePlugin {
-    plugins {
-        create("groupez-repository-plugin") {
-            id = "re.alwyn974.groupez.repository"
-            implementationClass = "re.alwyn974.groupez.repository.RepositoryPlugin"
-            description = "Declare all groupez repositories"
-        }
-        create("groupez-publish-plugin") {
-            id = "re.alwyn974.groupez.publish"
-            implementationClass = "re.alwyn974.groupez.publish.PublishPlugin"
-            description = "Publish artifacts to groupez repositories"
-        }
+    repositories {
+        mavenCentral()
+        mavenLocal()
     }
 }
 
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
+subprojects {
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "java-gradle-plugin")
+    apply(plugin = "maven-publish")
 
-dependencies {
-    testImplementation(kotlin("test"))
-}
+    kotlin {
+        jvmToolchain(21)
+    }
 
-tasks.test {
-    useJUnitPlatform()
-}
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
 
-kotlin {
-    jvmToolchain(21)
-}
+    dependencies {
+        implementation(gradleApi())
 
-publishing {
-    repositories {
-        mavenLocal()
+        testImplementation(kotlin("test"))
+    }
+
+    publishing {
+        repositories {
+            mavenLocal()
+        }
     }
 }
