@@ -1,5 +1,6 @@
 package re.alwyn974.groupez.publish
 
+import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.provider.Property
 import org.gradle.api.publish.PublicationContainer
@@ -7,6 +8,7 @@ import org.gradle.api.publish.PublishingExtension
 import javax.inject.Inject
 
 abstract class PublishPluginExtension @Inject constructor(
+    private val project: Project,
     private val delegate: PublishingExtension
 ) {
     abstract val githubOwner: Property<String>
