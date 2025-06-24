@@ -20,6 +20,7 @@ class PublishPlugin : Plugin<Project> {
             publishing
         ).apply {
             githubOwner.convention("MaxLego08")
+            repositoryName.convention("snapshots")
         }
 
         project.afterEvaluate {
@@ -34,11 +35,13 @@ class PublishPlugin : Plugin<Project> {
     ) {
         val repository = System.getProperty("repository.name", "snapshots")
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+        val repositoryName = "groupez$repository"
+        publishConfig.repositoryName.set(repositoryName)
 
-        if (publishing.repositories.none { it.name.startsWith("groupez") }) {
+        if (publishing.repositories.none { it.name == repositoryName }) {
             publishing.repositories { handler ->
                 handler.maven { mvn ->
-                    mvn.name = "groupez$repository"
+                    mvn.name = repositoryName
                     mvn.url = project.uri("https://repo.groupez.dev/${repository.lowercase()}")
                     mvn.credentials { creds ->
                         creds.username = project.findProperty("${mvn.name}Username") as String? ?: System.getenv("MAVEN_USERNAME")
@@ -51,9 +54,9 @@ class PublishPlugin : Plugin<Project> {
             }
         }
 
-        if (publishing.publications.none { it.name.startsWith("groupez") }) {
+        if (publishing.publications.none { it.name == repositoryName }) {
             publishing.publications { publications ->
-                publications.register("groupez${repository}", MavenPublication::class.java) { mavenPublication ->
+                publications.register(repositoryName, MavenPublication::class.java) { mavenPublication ->
                     mavenPublication.groupId = project.group as String?
                     mavenPublication.version = project.version as String?
 
