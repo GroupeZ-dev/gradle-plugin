@@ -9,18 +9,18 @@ class RepositoryPlugin : Plugin<Project> {
 
         project.afterEvaluate {
             project.repositories.maven { repo ->
-                repo.name = "groupez-releases"
+                repo.name = "groupezReleases"
                 repo.url = project.uri("https://repo.groupez.dev/releases")
             }
 
             project.repositories.maven { repo ->
-                repo.name = "groupez-snapshots"
+                repo.name = "groupezSnapshots"
                 repo.url = project.uri("https://repo.groupez.dev/snapshots")
             }
 
             if (extension.includePrivate.get()) {
                 project.repositories.maven { repo ->
-                    repo.name = "groupez-pPrivate"
+                    repo.name = "groupezPrivate"
                     repo.url = project.uri("https://repo.groupez.dev/private")
                 }
             }
