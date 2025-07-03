@@ -13,11 +13,10 @@ abstract class PublishPluginExtension @Inject constructor(
 ) {
     abstract val githubOwner: Property<String>
     abstract val repositoryName: Property<String>
-
     /**
      * Indicates if the root project is the one to be published.
      */
-    abstract val root: Property<Boolean>
+    abstract val isRootProject: Property<Boolean>
 
     // Délégation des propriétés de PublishingExtension
     val publications: PublicationContainer

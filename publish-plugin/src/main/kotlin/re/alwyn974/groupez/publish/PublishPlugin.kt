@@ -21,6 +21,7 @@ class PublishPlugin : Plugin<Project> {
         ).apply {
             githubOwner.convention("MaxLego08")
             repositoryName.convention("snapshots")
+            isRootProject.convention(false)
         }
 
         project.afterEvaluate {
@@ -61,7 +62,7 @@ class PublishPlugin : Plugin<Project> {
                     mavenPublication.version = project.version as String?
 
                     mavenPublication.pom { pom ->
-                        if (publishConfig.root.get())
+                        if (publishConfig.isRootProject.get())
                             pom.name.set(project.rootProject.name)
                         else
                             pom.name.set("${project.rootProject.name}-${project.name}")
