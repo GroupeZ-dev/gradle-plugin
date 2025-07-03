@@ -14,9 +14,15 @@ abstract class PublishPluginExtension @Inject constructor(
     abstract val githubOwner: Property<String>
     abstract val repositoryName: Property<String>
     /**
-     * Indicates if the root project is the one to be published.
+     * Indicates if we only use the root project name for the publication.
      */
-    abstract val isRootProject: Property<Boolean>
+    abstract val useRootProjectName: Property<Boolean>
+
+    init {
+        githubOwner.convention("MaxLego08")
+        repositoryName.convention("snapshots")
+        useRootProjectName.convention(false)
+    }
 
     // Délégation des propriétés de PublishingExtension
     val publications: PublicationContainer

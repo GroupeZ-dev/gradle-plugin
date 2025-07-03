@@ -8,7 +8,7 @@ plugins {
 allprojects {
     group = "re.alwyn974.groupez"
     // x-release-please-start-version
-    version = "1.0.1"
+    version = "1.0.0"
     // x-release-please-end
 
     repositories {

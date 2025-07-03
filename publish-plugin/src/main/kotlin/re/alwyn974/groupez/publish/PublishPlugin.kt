@@ -18,11 +18,7 @@ class PublishPlugin : Plugin<Project> {
             PublishPluginExtension::class.java,
             project,
             publishing
-        ).apply {
-            githubOwner.convention("MaxLego08")
-            repositoryName.convention("snapshots")
-            isRootProject.convention(false)
-        }
+        )
 
         project.afterEvaluate {
             configureDefaultPublishing(project, publishing, publishConfig)
@@ -62,7 +58,7 @@ class PublishPlugin : Plugin<Project> {
                     mavenPublication.version = project.version as String?
 
                     mavenPublication.pom { pom ->
-                        if (publishConfig.isRootProject.get())
+                        if (publishConfig.useRootProjectName.get())
                             pom.name.set(project.rootProject.name)
                         else
                             pom.name.set("${project.rootProject.name}-${project.name}")
