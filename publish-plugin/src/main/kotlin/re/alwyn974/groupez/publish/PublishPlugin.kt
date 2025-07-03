@@ -61,7 +61,10 @@ class PublishPlugin : Plugin<Project> {
                     mavenPublication.version = project.version as String?
 
                     mavenPublication.pom { pom ->
-                        pom.name.set("${project.rootProject.name}-${project.name}")
+                        if (publishConfig.root.get())
+                            pom.name.set(project.rootProject.name)
+                        else
+                            pom.name.set("${project.rootProject.name}-${project.name}")
                         mavenPublication.artifactId = pom.name.get().lowercase()
 
                         pom.scm { scm ->
